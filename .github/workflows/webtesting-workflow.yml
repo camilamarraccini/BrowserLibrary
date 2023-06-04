@@ -31,3 +31,11 @@ jobs:
         run: |
           robot -d./results -v HEADLESS:true -v BROWSER:chromium tests
       
+      - name: Upload Test Results 
+        if: always()      #if porque precisa executar sempre, do contrário ele só executa os próximso passos se o anterior deu certo
+        uses: actions/upload-artifact@v3
+        with: 
+          name: results-chromium
+          path: ./results
+          if-no-files-found: ignore     #se não encontrar os arquivos, ignore
+          retention-days: 2             #só segura por 2 dias, depois exclui da memória do github
