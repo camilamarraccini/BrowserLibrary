@@ -1,5 +1,5 @@
 name: Manual Run WEB Tests
-run-name: On Push - Web Tests Run
+run-name: Manual - Web Tests Run
 on:     #o que aciona
    workflow_dispatch: 
       inputs: 
