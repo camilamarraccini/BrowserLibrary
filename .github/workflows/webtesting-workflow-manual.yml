@@ -1,6 +1,12 @@
-name: Run WEB Tests
+name: Manual Run WEB Tests
 run-name: On Push - Web Tests Run
-on: [push]    #o que aciona
+on:     #o que aciona
+   workflow_dispatch: 
+      inputs: 
+        tag: 
+          type: string
+          description: Qual é a TAG a ser executada?
+          required: true
 
 jobs: 
   web-tests:
@@ -35,7 +41,7 @@ jobs:
 
       - name:  Run RF WEB tests
         run: |
-          robot -d./results -v HEADLESS:true -v BROWSER:${{matrix.browser}} tests
+          robot -d./results -v HEADLESS:true -v BROWSER:${{matrix.browser}} -i {{inputs.tag}} tests
       
       - name: Upload Test Results 
         if: always()      #if porque precisa executar sempre, do contrário ele só executa os próximso passos se o anterior deu certo
