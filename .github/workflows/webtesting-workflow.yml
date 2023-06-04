@@ -6,6 +6,11 @@ jobs:
   web-tests:
     runs-on: ubuntu-20.04
     permissions: write-all
+    strategy: 
+      matrix: 
+        browser: [chromium, firefox, webkit]
+        #OS: [Windows, MAC, Linux]
+    fail-fast: false    #Falso porque se um dos navegadores falhar, ele continua a execução no proximo. Se for true ele para
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -30,13 +35,13 @@ jobs:
 
       - name:  Run RF WEB tests
         run: |
-          robot -d./results -v HEADLESS:true -v BROWSER:chromium tests
+          robot -d./results -v HEADLESS:true -v BROWSER:${{matrix.browser}} tests
       
       - name: Upload Test Results 
         if: always()      #if porque precisa executar sempre, do contrário ele só executa os próximso passos se o anterior deu certo
         uses: actions/upload-artifact@v3
         with: 
-          name: results-chromium
+          name: results-${{matrix.browser}}
           path: ./results
           if-no-files-found: ignore     #se não encontrar os arquivos, ignore
           retention-days: 2             #só segura por 2 dias, depois exclui da memória do github
@@ -45,12 +50,12 @@ jobs:
         if: always()
         uses: actions/download-artifact@v1
         with:
-          name: results-chromium
+          name: results-${{matrix.browser}}
       
       - name: Send Report
         if: always()
         uses: joonvena/robotframework-reporter-action@v2.1
         with:
-          report_path: results-chromium
+          report_path: results-${{matrix.browser}}
           gh_access_token: ${{ secrets.GITHUB_TOKEN }} 
           show_passed_tests: true
