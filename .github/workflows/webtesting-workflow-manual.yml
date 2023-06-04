@@ -41,7 +41,7 @@ jobs:
 
       - name:  Run RF WEB tests
         run: |
-          robot -d./results -v HEADLESS:true -v BROWSER:${{matrix.browser}} -i {{inputs.tag}} tests
+          robot -d./results -v HEADLESS:true -v BROWSER:${{matrix.browser}} -i ${{inputs.tag}} tests
       
       - name: Upload Test Results 
         if: always()      #if porque precisa executar sempre, do contrário ele só executa os próximso passos se o anterior deu certo
