@@ -10,7 +10,7 @@ jobs:
       matrix: 
         browser: [chromium, firefox, webkit]
         #OS: [Windows, MAC, Linux]
-    fail-fast: false    #Falso porque se um dos navegadores falhar, ele continua a execução no proximo. Se for true ele para
+      fail-fast: false    #Falso porque se um dos navegadores falhar, ele continua a execução no proximo. Se for true ele para
     steps:
       - name: Checkout
         uses: actions/checkout@v3
